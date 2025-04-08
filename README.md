@@ -55,27 +55,29 @@ This project investigates **Knowledge Obsolescence (KO)** in the medical domain 
   Implements Snorkel weak supervision pipeline, generates label model, evaluates KO effects, and visualizes results.
   ➤ **Output:**
     **Training Set Performance:**
-    - Accuracy: `0.8562`
-    - F1-Score (macro avg): `0.86`
+    - Accuracy: `0.8973`
     
     **Test Set Performance:**
-    - Accuracy: `0.7271`
-    - F1-Score (macro avg): `0.73`
+    - Accuracy: `0.7464`
     **Key Visual Outputs:**
     - `confusion_matrices.png` – Side-by-side confusion matrices for old and new datasets.
-    - `lf_weights.png` – Contribution weights of labeling functions.
     - `f1_score_comparison.png` – Visualization of F1 score degradation due to KO.
+      
+  - **`domain_adaptation.py`**  
+  Implements domain adaptation technique to reach higher performance of new dataset and visualizes results.
+  ➤ **Output:**
+    **Training Set Performance:**
+    - Accuracy: `0.9073`
+    
+    **Test Set Performance:**
+    - Accuracy: `0.7952`
+    **Key Visual Outputs:**
+    - `model_comparison.png` – Comparing results of different ensembled models
 ---
 
 ## Knowledge Obsolescence Insights
 
-- **Overall F1 score drop:** `-0.1291` (≈15.08% relative decrease)
-- **Greatest impact on class:** `Inconclusive`  
-  → F1 Score dropped from `0.8237` → `0.6453`  
-  → Relative change: `-21.66%`
 
-**Interpretation:**  
-The handling of *inconclusive* cases has evolved more drastically, suggesting these are most sensitive to outdated clinical assessment criteria.
 
 ---
 
