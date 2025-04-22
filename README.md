@@ -3,6 +3,52 @@
 This project investigates **Knowledge Obsolescence (KO)** in the medical domain using clinical notes. It leverages advanced NLP models and weak supervision techniques to analyze shifts in classification performance over time and uncover signs of outdated medical knowledge.
 
 ---
+## Installation & Execution
+
+To reproduce this project, follow the steps below to set up your environment and run the full pipeline, including ClinicalBERT training, Snorkel labeling, and domain adaptation.
+
+### Prerequisites
+
+Ensure you have **Python 3.8+** installed. It's recommended to use a virtual environment (e.g., `venv` or `conda`).
+
+### Required Packages
+
+Install all dependencies using the provided `requirements.txt` file:
+
+```bash
+pip install -r requirements.txt
+```
+### 🔧 Running the Pipeline
+
+#### 1️⃣ Train the Base ClinicalBERT Model
+
+```bash
+python train_clinicalbert.py
+```
+
+This command trains ClinicalBERT on the **old dataset** (`preprocessed_clinical_notes_old.csv`) and evaluates it on the **new dataset** (`preprocessed_clinical_notes_new.csv`).  
+The fine-tuned model will be saved in the `clinicalbert_for_snorkel/` directory.
+
+---
+
+#### 2️⃣ Apply Snorkel Weak Supervision
+
+```bash
+python snorkel_implement.py
+```
+
+This step runs **12 labeling functions (LFs)**, applies the Snorkel label model to both datasets, and evaluates the model using weak supervision.  
+It also outputs label function analysis and confusion matrices.
+
+---
+
+#### 3️⃣ Apply Domain Adaptation
+
+```bash
+python domain_adaptation.py
+```
+
+---
 
 ## Datasets
 - Metadata:
@@ -77,25 +123,25 @@ This project investigates **Knowledge Obsolescence (KO)** in the medical domain 
 
 ## Evaluation Summary & KO Analysis
 
-- ** KO Problem Observed**:  
+- **KO Problem Observed**:  
   The base ClinicalBERT model, trained on 2019–2021 data, dropped to **71.7% accuracy** when evaluated on the 2022–2024 dataset—demonstrating clear signs of **knowledge obsolescence**.
 
-- ** Biggest Performance Dip**:  
+- **Biggest Performance Dip**:  
   The _Inconclusive_ class saw the largest drop, likely due to subtle shifts in language and medical documentation over time.
 
-- ** Snorkel Attempt (Weak Supervision)**:  
+- **Snorkel Attempt (Weak Supervision)**:  
   Implementing weak supervision with Snorkel led to a moderate improvement (**74.4% accuracy**), achieved **without any additional manual labeling**.
 
-- ** Snorkel Limitations**:
+- **Snorkel Limitations**:
   - The total time span was only **six years**, with a three-year overlap between old and new datasets.
   - **Minimal language drift** in terminology made it hard for labeling functions (LFs) to capture meaningful changes.
 
-- ** Domain Adaptation Impact**:
+- **Domain Adaptation Impact**:
   - Fine-tuning ClinicalBERT with **new labeled data** and **text augmentation** (e.g., synonym replacement, date shifting) significantly improved model adaptability.
   - The **ensemble model** (Base + New Data + Hybrid) achieved the best result:  
     **79.5% accuracy**, recovering **89.9%** of original model performance.
 
-- ** Why Domain Adaptation Succeeded**:
+- **Why Domain Adaptation Succeeded**:
   - It retrained the model’s internal embeddings to learn **evolving phrasing**, **abbreviations**, and **documentation styles**.
   - Hybrid and ensemble strategies allowed the model to **retain old knowledge** while aligning with **modern data**—directly addressing the KO challenge.
 
