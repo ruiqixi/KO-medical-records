@@ -75,7 +75,30 @@ This project investigates **Knowledge Obsolescence (KO)** in the medical domain 
     - `model_comparison.png` – Comparing results of different ensembled models
 ---
 
-## Knowledge Obsolescence Insights
+## Evaluation Summary & KO Analysis
+
+- ** KO Problem Observed**:  
+  The base ClinicalBERT model, trained on 2019–2021 data, dropped to **71.7% accuracy** when evaluated on the 2022–2024 dataset—demonstrating clear signs of **knowledge obsolescence**.
+
+- ** Biggest Performance Dip**:  
+  The _Inconclusive_ class saw the largest drop, likely due to subtle shifts in language and medical documentation over time.
+
+- ** Snorkel Attempt (Weak Supervision)**:  
+  Implementing weak supervision with Snorkel led to a moderate improvement (**74.4% accuracy**), achieved **without any additional manual labeling**.
+
+- ** Snorkel Limitations**:
+  - The total time span was only **six years**, with a three-year overlap between old and new datasets.
+  - **Minimal language drift** in terminology made it hard for labeling functions (LFs) to capture meaningful changes.
+
+- ** Domain Adaptation Impact**:
+  - Fine-tuning ClinicalBERT with **new labeled data** and **text augmentation** (e.g., synonym replacement, date shifting) significantly improved model adaptability.
+  - The **ensemble model** (Base + New Data + Hybrid) achieved the best result:  
+    **79.5% accuracy**, recovering **89.9%** of original model performance.
+
+- ** Why Domain Adaptation Succeeded**:
+  - It retrained the model’s internal embeddings to learn **evolving phrasing**, **abbreviations**, and **documentation styles**.
+  - Hybrid and ensemble strategies allowed the model to **retain old knowledge** while aligning with **modern data**—directly addressing the KO challenge.
+
 
 
 
